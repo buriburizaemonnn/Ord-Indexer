@@ -1,0 +1,30 @@
+type Account = record { owner : principal; subaccount : opt blob };
+type Addresses = record { icrc1 : Account; bitcoin : text };
+type BitcoinNetwork = variant { mainnet; regtest; testnet };
+type RuneId = record { tx : nat32; block : nat64 };
+type SubmittedTransactionIdType = variant { Bitcoin : record { txid : text } };
+service : (BitcoinNetwork) -> {
+  generate_address : (nat) -> (text) query;
+  get_bitcoin_balance_of : (text) -> (nat64);
+  get_deposit_addresses : () -> (Addresses) query;
+  get_runestone_balance_of : (text) -> (vec record { RuneId; nat });
+  withdraw_bitcoin : (text, nat64, opt nat64) -> (SubmittedTransactionIdType);
+  withdraw_bitcoin_from_multiple_addresses : (
+      principal,
+      text,
+      nat64,
+      opt nat64,
+    ) -> (SubmittedTransactionIdType);
+  withdraw_combined : (RuneId, nat, nat64, principal, opt nat64) -> (
+      SubmittedTransactionIdType,
+    );
+  withdraw_runestone : (RuneId, nat, text, opt nat64) -> (
+      SubmittedTransactionIdType,
+    );
+  withdraw_runestone_with_fee_paid_by_receiver : (
+      RuneId,
+      nat,
+      principal,
+      opt nat64,
+    ) -> (SubmittedTransactionIdType);
+}

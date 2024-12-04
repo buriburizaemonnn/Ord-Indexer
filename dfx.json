@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "canisters": {
+    "ord_indexer": {
+      "type": "rust",
+      "package": "ord_canister",
+      "candid": "ord_canister/ord_indexer.did",
+      "optimize": "cycles",
+      "gzip": true
+    },
+    "wallet": {
+      "type": "rust",
+      "package": "wallet",
+      "candid": "wallet/wallet.did",
+      "optimize": "cycles",
+      "gzip": true
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "localhost:4943",
+      "type": "ephemeral",
+      "bitcoin": {
+        "enabled": true,
+        "nodes": ["0.0.0.0:18444"],
+        "log_level": "error"
+      }
+    }
+  },
+  "output_file_env": ".env"
+}
